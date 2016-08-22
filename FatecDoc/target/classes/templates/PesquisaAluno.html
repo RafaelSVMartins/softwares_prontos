@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="LayoutPadrao">
+<head>
+<title>Pesquisa Alunos</title>
+</head>
+	<section layout:fragment="conteudo">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="clearfix">
+					<h1 class="panel-title aw-titulo-panel">Pesquisa Aluno</h1>
+					<a class="btn btn-link aw-link-panel" href="/alunos/novo">Voltar para cadastro de alunos</a>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td class="text-center col-md-1">#</td>
+							<td class="text-right col-md-2">Id:</td>
+							<td class="text-right col-md-2">Nome:</td>
+							<td class="text-right col-md-2">RA:</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="Aluno : ${alunos}">
+							<td class="text-center" th:text="${Aluno.id}"></td>
+							<td class="text-center" th:text="${Aluno.nome}"></td>
+							<td class="text-left" th:text="${Aluno.ra}"></td>
+							<td class="text-center">
+							
+							<a class="btn btn-link btn-xs" 
+	   						th:href="@{/alunos/{id}(id=${Aluno.id})}" 
+	   						title="Editar" rel="tooltip" data-placement="top">
+	   						<span class="glyphicon glyphicon-pencil"></span>
+	   						</a>
+	   						<a class="btn btn-link btn-xs" 
+	   						th:href="@{/alunos/cadastrodocumento/{id}(id=${Aluno.id})}" 
+	   						title="Cadastrar documento" rel="tooltip" data-placement="top">
+	   						<span class="glyphicon glyphicon-share-alt"></span>
+	   						</a>
+							<a class="btn btn-link btn-xs" data-toggle="modal" 
+							data-target="#confirmacaoExclusaoModal" th:attr="data-id=${Aluno.id},data-nome=${Aluno.nome}"
+							title="Excluir" rel="tooltip" data-placement="top"> 
+								<span class="glyphicon glyphicon-remove"></span>
+							</a></td>
+						</tr>
+						<tr>
+								<td colspan="6" th:if="${#lists.isEmpty(alunos)}">Nenhum aluno foi encontrado!</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div layout:include="DialogoConfirmacaoExclusao"></div>
+		</div>
+	</section>
+</html>

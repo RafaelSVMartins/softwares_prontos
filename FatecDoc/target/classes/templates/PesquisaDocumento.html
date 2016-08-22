@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="LayoutPadrao">
+<head>
+<title>Pesquisa Alunos</title>
+</head>
+	<section layout:fragment="conteudo">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="clearfix">
+					<h1 class="panel-title aw-titulo-panel">Pesquisa Documento</h1>
+					<a class="btn btn-link aw-link-panel" href="/alunos">Voltar para pesquisa de alunos</a>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<td class="text-center col-md-1">#</td>
+							<td class="text-right col-md-2">Id:</td>
+							<td class="text-right col-md-2">Nome:</td>
+							<td class="text-right col-md-2">RA:</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="Documentos : ${documentos}">
+							<td class="text-center" th:text="${Documentos.id}"></td>
+							<td class="text-center" th:text="${Documentos.nome}"></td>
+							<td class="text-left" th:text="${{Documentos.recebido}}"></td>
+							<td class="text-left" th:text="${Documentos.status}"
+							th:classappend="${Documentos.pendente ? 'label-danger' : 'label-success'}"></td>
+							<td class="text-center">
+							
+							<a class="btn btn-link btn-xs" 
+	   						th:href="@{/documentos/{id}(id=${Documentos.id})}" 
+	   						title="Editar" rel="tooltip" data-placement="top">
+	   						<span class="glyphicon glyphicon-pencil"></span>
+	   						</a>
+	   		
+							<a class="btn btn-link btn-xs" data-toggle="modal" 
+							data-target="#confirmacaoExclusaoModal2" th:attr="data-id=${Documentos.id},data-nome=${Documentos.nome}"
+							title="Excluir2" rel="tooltip" data-placement="top"> 
+								<span class="glyphicon glyphicon-remove"></span>
+							</a></td>
+						</tr>
+						<tr>
+								<td colspan="6" th:if="${#lists.isEmpty(documentos)}">Nenhum documento foi encontrado!</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div layout:include="DialogoConfirmacaoExclusao2"></div>
+		</div>
+	</section>
+</html>
